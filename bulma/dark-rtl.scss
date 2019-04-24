@@ -1,6 +1,17 @@
+@charset "utf-8";
+
+$right: left;
+$left: right;
+
+html {
+    direction: rtl
+}
+
 @import './dark/variables';
 
-@import "~bulma-rtl/bulma-rtl";
+@import "~bulma/bulma";
+
+@import "./bulma-rtl";
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 

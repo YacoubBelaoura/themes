@@ -1,0 +1,932 @@
+//  helpers.sass
+.is-pulled-left
+  float: right !important
+
+.is-pulled-right
+  float: left !important
+
+
+$alignments: ('centered': 'center', 'justified': 'justify', 'left': 'right', 'right': 'left')
+
+@each $alignment, $text-align in $alignments
+  .has-text-#{$alignment}
+    text-align: #{$text-align} !important
+
+@each $alignment, $text-align in $alignments
+  +mobile
+    .has-text-#{$alignment}-mobile
+      text-align: #{$text-align} !important
+  +tablet
+    .has-text-#{$alignment}-tablet
+      text-align: #{$text-align} !important
+  +tablet-only
+    .has-text-#{$alignment}-tablet-only
+      text-align: #{$text-align} !important
+  +touch
+    .has-text-#{$alignment}-touch
+      text-align: #{$text-align} !important
+  +desktop
+    .has-text-#{$alignment}-desktop
+      text-align: #{$text-align} !important
+  +desktop-only
+    .has-text-#{$alignment}-desktop-only
+      text-align: #{$text-align} !important
+  +widescreen
+    .has-text-#{$alignment}-widescreen
+      text-align: #{$text-align} !important
+  +widescreen-only
+    .has-text-#{$alignment}-widescreen-only
+      text-align: #{$text-align} !important
+  +fullhd
+    .has-text-#{$alignment}-fullhd
+      text-align: #{$text-align} !important
+
+// tag.sass
+$tag-background-color: $background !default
+$tag-color: $text !default
+$tag-radius: $radius !default
+$tag-delete-margin: 1px !default
+
+.tags
+  align-items: center
+  display: flex
+  flex-wrap: wrap
+  justify-content: flex-start
+  .tag
+    margin-bottom: 0.5rem
+    &:not(:last-child)
+      margin-#{$right}: 0.5rem
+  &:last-child
+    margin-bottom: -0.5rem
+  &:not(:last-child)
+    margin-bottom: 1rem
+  &.has-addons
+    .tag
+      margin-#{$right}: 0
+      &:not(:first-child)
+        margin-#{$left}: 0
+        border-bottom-#{$left}-radius: 0
+        border-top-#{$left}-radius: 0
+      &:not(:last-child)
+        border-bottom-#{$right}-radius: 0
+        border-top-#{$right}-radius: 0
+  &.is-centered
+    justify-content: center
+    .tag
+      margin-#{$right}: 0.25rem
+      margin-#{$left}: 0.25rem
+  &.is-right
+    justify-content: flex-end
+    .tag
+      &:not(:first-child)
+        margin-#{$left}: 0.5rem
+      &:not(:last-child)
+        margin-#{$right}: 0
+  &.is-left
+    justify-content: flex-start
+    .tag
+      &:not(:first-child)
+        margin-#{$left}: 0
+      &:not(:last-child)
+        margin-#{$right}: 0.5rem
+
+.tag:not(body)
+  align-items: center
+  background-color: $tag-background-color
+  border-radius: $tag-radius
+  color: $tag-color
+  display: inline-flex
+  font-size: $size-small
+  height: 2em
+  justify-content: center
+  line-height: 1.5
+  padding-left: 0.75em
+  padding-right: 0.75em
+  white-space: nowrap
+  .delete
+    margin-#{$left}: 0.25rem
+    margin-#{$right}: -0.375rem
+
+  .icon
+    &:first-child:not(:last-child)
+      margin-#{$left}: -0.375em
+      margin-#{$right}: 0.1875em
+    &:last-child:not(:first-child)
+      margin-#{$left}: 0.1875em
+      margin-#{$right}: -0.375em
+    &:first-child:last-child
+      margin-#{$left}: -0.375em
+      margin-#{$right}: -0.375em
+  // Modifiers
+  &.is-delete
+    margin-#{$left}: $tag-delete-margin
+    padding: 0
+    position: relative
+    width: 2em
+    &::before,
+    &::after
+      background-color: currentColor
+      content: ""
+      display: block
+      left: 50%
+      position: absolute
+      top: 50%
+      transform: translateX(-50%) translateY(-50%) rotate(45deg)
+      transform-origin: center center
+    &::before
+      height: 1px
+      width: 50%
+    &::after
+      height: 50%
+      width: 1px
+    &:hover,
+    &:focus
+      background-color: darken($tag-background-color, 5%)
+    &:active
+      background-color: darken($tag-background-color, 10%)
+  &.is-rounded
+    border-radius: $radius-rounded
+
+a.tag
+  &:hover
+    text-decoration: underline
+
+// forms.sass
+
+.input,
+.textarea
+  +input
+  box-shadow: $input-shadow
+  max-width: 100%
+  width: 100%
+  @if ($right == 'left')
+    &::-webkit-input-placeholder
+      text-align: right !important
+    &::-moz-placeholder
+      text-align: right !important
+
+.radio
+  & + .radio
+    margin-#{$left}: 0.5em
+
+
+.select
+  display: inline-block
+  max-width: 100%
+  position: relative
+  vertical-align: top
+  &:not(.is-multiple)
+    height: 2.25em
+  &:not(.is-multiple):not(.is-loading)
+    &::after
+      +arrow($input-arrow)
+      #{$right}: 1.125em
+      z-index: 4
+  &.is-rounded
+    select
+      border-radius: $radius-rounded
+      padding-#{$left}: 1em
+  select
+    +input
+    cursor: pointer
+    display: block
+    font-size: 1em
+    max-width: 100%
+    outline: none
+    &::-ms-expand
+      display: none
+    &[disabled]:hover
+      border-color: $input-disabled-border-color
+    &:not([multiple])
+      padding-#{$right}: 2.5em
+    &[multiple]
+      height: initial
+      padding: 0
+      option
+        padding: 0.5em 1em
+
+.file
+  +unselectable
+  align-items: stretch
+  display: flex
+  justify-content: flex-start
+  position: relative
+  // Colors
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      .file-cta
+        background-color: $color
+        border-color: transparent
+        color: $color-invert
+      &:hover,
+      &.is-hovered
+        .file-cta
+          background-color: darken($color, 2.5%)
+          border-color: transparent
+          color: $color-invert
+      &:focus,
+      &.is-focused
+        .file-cta
+          border-color: transparent
+          box-shadow: 0 0 0.5em rgba($color, 0.25)
+          color: $color-invert
+      &:active,
+      &.is-active
+        .file-cta
+          background-color: darken($color, 5%)
+          border-color: transparent
+          color: $color-invert
+  // Sizes
+  &.is-small
+    font-size: $size-small
+  &.is-medium
+    font-size: $size-medium
+    .file-icon
+      .fa
+        font-size: 21px
+  &.is-large
+    font-size: $size-large
+    .file-icon
+      .fa
+        font-size: 28px
+  // Modifiers
+  &.has-name
+    .file-cta
+      border-bottom-#{$right}-radius: 0
+      border-top-#{$right}-radius: 0
+    .file-name
+      border-bottom-#{$left}-radius: 0
+      border-top-#{$left}-radius: 0
+
+  &.is-right
+    justify-content: flex-end
+    .file-cta
+      border-radius: 0 $file-radius $file-radius 0
+    .file-name
+      border-radius: $file-radius 0 0 $file-radius
+      border-width: 1px 0 1px 1px
+      order: -1
+  &.is-left
+    justify-content: flex-start
+    .file-cta
+      border-radius: 0 0 $file-radius $file-radius
+    .file-name
+      border-radius: $file-radius $file-radius 0 0
+      border-width: 1px 1px 1px 0
+      order: 1
+
+.file-input
+  height: 0.01em
+  #{$left}: 0
+  outline: none
+  position: absolute
+  top: 0
+  width: 0.01em
+
+.file-name
+  border-color: $file-name-border-color
+  border-style: $file-name-border-style
+  border-width: $file-name-border-width
+  display: block
+  max-width: $file-name-max-width
+  overflow: hidden
+  text-align: $left
+  text-overflow: ellipsis
+
+.file-icon
+  align-items: center
+  display: flex
+  height: 1em
+  justify-content: center
+  margin-#{$right}: 0.5em
+  width: 1em
+
+.field
+  &:not(:last-child)
+    margin-bottom: 0.75rem
+  // Modifiers
+  &.has-addons
+    display: flex
+    justify-content: flex-start
+    .control
+      &:not(:last-child)
+        margin-#{$right}: -1px
+      &:not(:first-child):not(:last-child)
+        .button,
+        .input,
+        .select select
+          border-radius: 0
+      &:first-child
+        .button,
+        .input,
+        .select select
+          border-bottom-#{$right}-radius: 0
+          border-top-#{$right}-radius: 0
+      &:last-child
+        .button,
+        .input,
+        .select select
+          border-bottom-#{$left}-radius: 0
+          border-top-#{$left}-radius: 0
+      .button,
+      .input,
+      .select select
+        &:hover,
+        &.is-hovered
+          z-index: 2
+        &:focus,
+        &.is-focused,
+        &:active,
+        &.is-active
+          z-index: 3
+          &:hover
+            z-index: 4
+      &.is-expanded
+        flex-grow: 1
+    &.has-addons-centered
+      justify-content: center
+    // define has-addons-right for ltr and has-addons-left for rtl
+    &.has-addons-#{$right}
+      justify-content: flex-end
+    &.has-addons-fullwidth
+      .control
+        flex-grow: 1
+        flex-shrink: 0
+  &.is-grouped
+    display: flex
+    justify-content: flex-start
+    & > .control
+      flex-shrink: 0
+      &:not(:last-child)
+        margin-bottom: 0
+        margin-#{$right}: 0.75rem
+      &.is-expanded
+        flex-grow: 1
+        flex-shrink: 1
+    &.is-grouped-centered
+      justify-content: center
+    &.is-grouped-right
+      justify-content: flex-end
+    &.is-grouped-multiline
+      flex-wrap: wrap
+      & > .control
+        &:last-child,
+        &:not(:last-child)
+          margin-bottom: 0.75rem
+      &:last-child
+        margin-bottom: -0.75rem
+      &:not(:last-child)
+        margin-bottom: 0
+
+.field-label
+  .label
+    font-size: inherit
+  +mobile
+    margin-bottom: 0.5rem
+  +tablet
+    flex-basis: 0
+    flex-grow: 1
+    flex-shrink: 0
+    margin-#{$right}: 1.5rem
+    text-align: $right
+
+.field-body
+  .field .field
+    margin-bottom: 0
+  +tablet
+    display: flex
+    flex-basis: 0
+    flex-grow: 5
+    flex-shrink: 1
+    .field
+      margin-bottom: 0
+    & > .field
+      flex-shrink: 1
+      &:not(.is-narrow)
+        flex-grow: 1
+      &:not(:last-child)
+        margin-#{$right}: 0.75rem
+
+.control
+  font-size: $size-normal
+  position: relative
+  text-align: $left
+  // Modifiers
+  // DEPRECATED
+  &.has-icon
+    .icon
+      color: $input-icon-color
+      height: 2.25em
+      pointer-events: none
+      position: absolute
+      top: 0
+      width: 2.25em
+      z-index: 4
+    .input
+      &:focus
+        & + .icon
+          color: $input-icon-active-color
+      &.is-small
+        & + .icon
+          font-size: $size-small
+      &.is-medium
+        & + .icon
+          font-size: $size-medium
+      &.is-large
+        & + .icon
+          font-size: $size-large
+    &:not(.has-icon-right)
+      .icon
+        left: 0
+      .input
+        padding-left: 2.25em
+    &.has-icon-right
+      .icon
+        right: 0
+      .input
+        padding-right: 2.25em
+  &.has-icons-left,
+  &.has-icons-right
+    .input,
+    .select
+      &:focus
+        & ~ .icon
+          color: $input-icon-active-color
+      &.is-small ~ .icon
+        font-size: $size-small
+      &.is-medium ~ .icon
+        font-size: $size-medium
+      &.is-large ~ .icon
+        font-size: $size-large
+    .icon
+      color: $input-icon-color
+      height: 2.25em
+      pointer-events: none
+      position: absolute
+      top: 0
+      width: 2.25em
+      z-index: 4
+  &.has-icons-left
+    .input,
+    .select select
+      padding-left: 2.25em
+    .icon.is-left
+      left: 0
+  &.has-icons-right
+    .input,
+    .select select
+      padding-right: 2.25em
+    .icon.is-right
+      right: 0
+  &.is-loading
+    &::after
+      +loader
+      position: absolute !important
+      #{$right}: 0.625em
+      top: 0.625em
+      z-index: 4
+    &.is-small:after
+      font-size: $size-small
+    &.is-medium:after
+      font-size: $size-medium
+    &.is-large:after
+      font-size: $size-large
+
+//  notification.sass
+$notification-background-color: $background !default
+$notification-radius: $radius !default
+
+$notification-padding: 1.25rem 2.5rem 1.25rem 1.5rem !default
+@if ($right == 'left')
+  $notification-padding: 1.25rem 1.5rem 1.25rem 2.5rem
+
+.notification
+  +block
+  background-color: $notification-background-color
+  border-radius: $notification-radius
+  padding: $notification-padding
+  position: relative
+  a:not(.button)
+    color: currentColor
+    text-decoration: underline
+  strong
+    color: currentColor
+  code,
+  pre
+    background: $white
+  pre code
+    background: transparent
+  & > .delete
+    position: absolute
+    #{$right}: 0.5rem
+    top: 0.5rem
+  .title,
+  .subtitle,
+  .content
+    color: currentColor
+  // Colors
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      background-color: $color
+      color: $color-invert
+
+// Other.sass
+.number
+  align-items: center
+  background-color: $background
+  border-radius: $radius-rounded
+  display: inline-flex
+  font-size: $size-medium
+  height: 2em
+  justify-content: center
+  margin-#{$right}: 1.5rem
+  min-width: 2.5em
+  padding: 0.25rem 0.5rem
+  text-align: center
+  vertical-align: top
+
+// Breadcrumb.sass
+$breadcrumb-item-color: $link !default
+$breadcrumb-item-hover-color: $link-hover !default
+$breadcrumb-item-active-color: $text-strong !default
+
+$breadcrumb-item-padding-vertical: 0 !default
+$breadcrumb-item-padding-horizontal: 0.75em !default
+
+$breadcrumb-item-separator-color: $grey-light !default
+
+.breadcrumb
+  +block
+  +unselectable
+  font-size: $size-normal
+  white-space: nowrap
+  a
+    align-items: center
+    color: $breadcrumb-item-color
+    display: flex
+    justify-content: center
+    padding: $breadcrumb-item-padding-vertical $breadcrumb-item-padding-horizontal
+    &:hover
+      color: $breadcrumb-item-hover-color
+  li
+    align-items: center
+    display: flex
+    &:first-child a
+      padding-#{$left}: 0
+    &.is-active
+      a
+        color: $breadcrumb-item-active-color
+        cursor: default
+        pointer-events: none
+    & + li::before
+      color: $breadcrumb-item-separator-color
+      content: "\0002f"
+  ul,
+  ol
+    align-items: flex-start
+    display: flex
+    flex-wrap: wrap
+    justify-content: flex-start
+  .icon
+    &:first-child
+      margin-#{$right}: 0.5em
+    &:last-child
+      margin-#{$left}: 0.5em
+  // Alignment
+  &.is-centered
+    ol,
+    ul
+      justify-content: center
+  &.is-right
+    ol,
+    ul
+      justify-content: flex-end
+  &.is-left
+    ol,
+    ul
+      justify-content: flex-start
+
+// Card.sass
+$card-footer-border-top: 1px solid $border !default
+
+.card-footer-item
+  align-items: center
+  display: flex
+  flex-basis: 0
+  flex-grow: 1
+  flex-shrink: 0
+  justify-content: center
+  padding: 0.75rem
+  &:not(:last-child)
+    border-#{$right}: $card-footer-border-top
+
+// Dropdown.sass
+.dropdown
+  display: inline-flex
+  position: relative
+  vertical-align: top
+  &.is-active,
+  &.is-hoverable:hover
+    .dropdown-menu
+      display: block
+  &.is-right
+    .dropdown-menu
+      left: auto
+      right: 0
+  &.is-left
+    .dropdown-menu
+      left: 0
+      right: auto
+
+.dropdown-menu
+  display: none
+  $left: 0
+
+a.dropdown-item
+  padding-#{$right}: 3rem
+
+// level.sass
+.level
+  +block
+  align-items: center
+  justify-content: space-between
+  @if ($right == 'left')
+    flex-direction: row-reverse
+  code
+    border-radius: $radius
+  img
+    display: inline-block
+    vertical-align: top
+  // Modifiers
+  &.is-mobile
+    display: flex
+    .level-left,
+    .level-right
+      display: flex
+    .level-left + .level-right
+      margin-top: 0
+    .level-item
+      &:not(:last-child)
+        margin-bottom: 0
+      &:not(.is-narrow)
+        flex-grow: 1
+      margin-#{$right}: 0.75rem
+  // Responsiveness
+  +tablet
+    display: flex
+    & > .level-item
+      &:not(.is-narrow)
+        flex-grow: 1
+
+.level-item
+  align-items: center
+  display: flex
+  flex-basis: auto
+  flex-grow: 0
+  flex-shrink: 0
+  justify-content: center
+  .title,
+  .subtitle
+    margin-bottom: 0
+  // Responsiveness
+  +mobile
+    &:not(:last-child)
+      margin-bottom: 0.75rem
+
+.level-left,
+.level-right
+  flex-basis: auto
+  flex-grow: 0
+  flex-shrink: 0
+  .level-item
+    // Modifiers
+    &.is-flexible
+      flex-grow: 1
+    // Responsiveness
+    +tablet
+      &:not(:last-child)
+        margin-#{$right}: 0.75rem
+
+.level-left
+  align-items: center
+  justify-content: flex-start
+  // Responsiveness
+  +mobile
+    & + .level-right
+      margin-top: 1.5rem
+  +tablet
+    display: flex
+
+.level-right
+  align-items: center
+  justify-content: flex-end
+  // Responsiveness
+  +tablet
+    display: flex
+
+// Medai.sass
+.media
+  align-items: flex-start
+  display: flex
+  text-align: $left
+  @if ($right == 'left')
+    flex-direction: row-reverse
+
+.media-left
+  margin-right: 1rem
+
+.media-right
+  margin-left: 1rem
+
+.media-content
+  flex-basis: auto
+  flex-grow: 1
+  flex-shrink: 1
+  text-align: $left
+
+//  modal.sass
+$modal-close-right: 20px !default
+
+.modal-close
+  +delete
+  #{$right}: $modal-close-right
+
+.modal-card-foot
+  .button
+    &:not(:last-child)
+      margin-#{$right}: 10px
+
+// Navbar.sass
+$navbar-height: 3.25rem !default
+$navbar-dropdown-arrow: $link !default
+
+.navbar-burger
+  +hamburger($navbar-height)
+  margin-#{$left}: auto
+
+.navbar-item,
+.navbar-link
+  .icon
+    &:only-child
+      margin-#{$left}: -0.25rem
+      margin-#{$right}: -0.25rem
+
+.navbar-link
+  padding-#{$right}: 2.5em
+  &::after
+    +arrow($navbar-dropdown-arrow)
+    margin-top: -0.375em
+    #{$right}: 1.125em
+
++desktop
+  .navbar-menu
+    flex-grow: 1
+    flex-shrink: 0
+  .navbar-start
+    justify-content: flex-start
+    margin-#{$right}: auto
+  .navbar-end
+    justify-content: flex-end
+    margin-#{$left}: auto
+    margin-#{$right}: inherit
+  .navbar-dropdown
+    #{$left}: 0
+    #{$right}: inherit
+    a.navbar-item
+      padding-#{$right}: 3rem
+      padding-#{$left}: inherit
+    &.is-right
+      left: auto
+      right: 0
+    &.is-left
+      right: auto
+      left: 0
+  .navbar-divider
+    display: block
+  .navbar > .container,
+  .container > .navbar
+    .navbar-brand
+      margin-#{$left}: -1rem
+    .navbar-menu
+      margin-#{$right}: -1rem
+
+// panel.sass
+$panel-block-active-border-left-color: $link !default
+
+.panel-block
+  align-items: center
+  color: $panel-block-color
+  display: flex
+  justify-content: flex-start
+  padding: 0.5em 0.75em
+  input[type="checkbox"]
+    margin-#{$right}: 0.75em
+  &.is-active
+    border-#{$left}-color: $panel-block-active-border-left-color
+    color: $panel-block-active-color
+    .panel-icon
+      color: $panel-block-active-icon-color
+
+.panel-icon
+  +fa(14px, 1em)
+  color: $panel-icon-color
+  margin-#{$right}: 0.75em
+
+// Tabs.sass
+$tabs-toggle-link-border-width: 1px !default
+$tabs-toggle-link-radius: $radius !default
+
+.tabs
+  +block
+  +overflow-touch
+  +unselectable
+  ul
+    justify-content: flex-start
+    &.is-#{$left}
+      padding-right: 0.75em
+    &.is-#{$right}
+      justify-content: flex-end
+      padding-left: 0.75em
+  .icon
+    &:first-child
+      margin-#{$right}: 0.5em
+    &:last-child
+      margin-#{$left}: 0.5em
+  // Alignment
+  &.is-centered
+    ul
+      justify-content: center
+  &.is-#{$right}
+    ul
+      justify-content: flex-end
+
+  &.is-toggle
+    li
+      & + li
+        margin-#{$left}: -#{$tabs-toggle-link-border-width}
+      &:first-child a
+        border-top-#{$left}-radius: $tabs-toggle-link-radius
+        border-top-#{$right}-radius: 0
+        border-bottom-#{$left}-radius: $tabs-toggle-link-radius
+        border-bottom-#{$right}-radius: 0
+      &:last-child a
+        border-top-#{$left}-radius: 0
+        border-top-#{$right}-radius: $tabs-toggle-link-radius
+        border-bottom-#{$left}-radius: 0
+        border-bottom-#{$right}-radius: $tabs-toggle-link-radius
+    ul
+      border-bottom: none
+    &.is-toggle-rounded
+      li
+        &:first-child a
+          border-bottom-#{$left}-radius: $radius-rounded
+          border-top-#{$left}-radius: $radius-rounded
+          padding-#{$left}: 1.25em
+        &:last-child a
+          border-bottom-#{$right}-radius: $radius-rounded
+          border-top-#{$right}-radius: $radius-rounded
+          padding-#{$right}: 1.25em
+
+//  Hero.sass
+
+.hero-video
+  +overlay
+  overflow: hidden
+  video
+    #{$left}: 50%
+
+.hero-buttons
+  +tablet
+    .button:not(:last-child)
+      margin-#{$right}: 1.5rem
+
+// Mixins.sass
+
+=center($width, $height: 0)
+  position: absolute
+  @if $height != 0
+    #{$left}: calc(50% - (#{$width} / 2))
+    top: calc(50% - (#{$height} / 2))
+  @else
+    #{$left}: calc(50% - (#{$width} / 2))
+    top: calc(50% - (#{$width} / 2))
+
+=hamburger($dimensions)
+  span
+    #{$left}: calc(50% - 8px)
+
+%arrow
+  border-right: 0
+
+%delete
+  @extend %unselectable
+  &::before,
+  &::after
+    left: 50%
+
+%loader
+  border-right-color: transparent
